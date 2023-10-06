@@ -483,13 +483,20 @@ rec {
         '';
 
         buildPhase = ''
+          echo "************************************************************ runHook preBuild"
           runHook preBuild
           export HOME=.
+          echo "************************************************************ npm ci ${nodeSource nodejs}"
           npm ci --nodedir=${nodeSource nodejs} --ignore-scripts
+          echo "************************************************************ test"
           test -d node_modules/.bin && patchShebangs node_modules/.bin
+          echo "************************************************************ rebuild"
           npm rebuild --offline --nodedir=${nodeSource nodejs} ${builtins.concatStringsSep " " allDependenciesNames}
+          echo "************************************************************ install"
           npm install --no-save --offline --nodedir=${nodeSource nodejs}
+          echo "************************************************************ test"
           test -d node_modules/.bin && patchShebangs node_modules/.bin
+          echo "************************************************************ postBuild"
           runHook postBuild
         '';
         installPhase = ''
