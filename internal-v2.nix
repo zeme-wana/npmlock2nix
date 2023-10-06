@@ -487,7 +487,7 @@ rec {
           runHook preBuild
           export HOME=.
           echo "************************************************************ npm ci ${nodeSource nodejs}"
-          npm ci --nodedir=${nodeSource nodejs} --ignore-scripts --verbose
+          npm ci --nodedir=${nodeSource nodejs} --ignore-scripts --verbose --no-audit
           echo "************************************************************ test"
           test -d node_modules/.bin && patchShebangs node_modules/.bin
           echo "************************************************************ rebuild"
